@@ -31,6 +31,7 @@ assert_regex_invert '^$' ls /nix/store
 assert touch /nix/store/.abc
 assert_regex_invert '^$' ls /nix/store/.abc
 # assert_regex_invert '^$' ls /nix-store-upper
+assert test -e '/usr/lib/librtldloader.so'
 
 
 loginfo "=== test environment variables ==="
@@ -51,5 +52,72 @@ assert '[ "$CLOUDIDE_CONTROL_PLANE" = "boe" ] || [ "$CLOUDIDE_CONTROL_PLANE" = "
 assert '[ "$CLOUDIDE_TENANT_ID" = "1dknw951n5p5vn" ] || [ "$CLOUDIDE_TENANT_ID" = "82g9meypogge2g" ]'
 assert '! [ -z "$CLOUDIDE_PROJECT_ID" ]'
 assert '[ "$CLOUDIDE_TEMPLATE" = "nix" ]'
-# TODO
-assert_regex '.local/state/nix/profiles/profile/lib/mariadb' 'echo $LIBRARY_PATH'
+
+assert_regex '.nix-profile/lib/pkgconfig' 'echo $PKG_CONFIG_PATH'
+assert_regex '.local/state/nix/builtin/lib/pkgconfig' 'echo $PKG_CONFIG_PATH'
+assert_regex '.nix-profile/share/pkgconfig' 'echo $PKG_CONFIG_PATH'
+assert_regex '.local/state/nix/builtin/share/pkgconfig' 'echo $PKG_CONFIG_PATH'
+assert_regex '.local/state/nix/builtin' 'echo $OPENSSL_ROOT_DIR'
+assert_regex '.nix-profile/include' 'echo $CPATH'
+assert_regex '.local/state/nix/builtin/include' 'echo $CPATH'
+assert_regex '.local/state/nix/builtin/include' 'echo $CPATH'
+assert_regex '.local/state/nix/builtin/include' 'echo $CPLUS_INCLUDE_PATH'
+assert_regex '.local/state/nix/builtin/include' 'echo $CPLUS_INCLUDE_PATH'
+assert_regex '.npm' 'echo $npm_config_prefix'
+assert_regex '.local/state/nix/profiles/profile/lib/mariadb' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+assert_regex '.local/state/nix/profiles/profile/lib64' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+assert_regex '.local/state/nix/profiles/profile/lib' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+assert_regex '.local/state/nix/builtin/lib64' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+assert_regex '.local/state/nix/builtin/lib' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+assert_regex '/usr/lib/librtldloader.so' 'echo $LD_AUDIT'
+assert_regex '.npm/bin' 'echo $PATH'
+
+
+loginfo "=== test component process ==="
+assert 'workspaceagent 进程端口正常' -- curl localhost:29003
+assert 'icube 进程端口正常' --  curl localhost:29501/version
+assert 'a0deploydeamon 进程端口正常' -- curl localhost:19002/version
+
+
+loginfo "=== test command ==="
+assert which bash
+assert which sh
+assert which wget
+assert which curl
+assert which git
+assert which sudo
+assert which netstat
+assert which nc
+assert which zsh
+assert which socat
+assert which man
+assert which tmux
+assert which rsync
+assert which sshpass
+assert which unzip
+assert which locale
+assert which ip
+assert which ping
+assert which less
+assert which vim
+assert which nc
+assert which xz
+assert which fzy
+assert which jq
+assert which nix
+assert which nix-build
+assert which nix-channel
+assert which nix-channel-index
+assert which nix-collect-garbage
+assert which nix-copy-closure
+assert which nix-daemon
+assert which nix-env
+assert which nix-hash
+assert which nix-index
+assert which nix-instantiate
+assert which nix-locate
+assert which nix-prefetch-url
+assert which nix-shell
+assert which nix-store
+assert which rippkgs
+assert which rippkgs-index
