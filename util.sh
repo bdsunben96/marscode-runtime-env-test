@@ -47,10 +47,10 @@ assert(){
     loginfo "--- will assert ${msg_arr[@]}: $sub_cmd ${sub_args[@]}"
     eval "$sub_cmd ${sub_args[@]}"
     if [ $? -eq 0 ] ;then
-        loginfo "--- assert ok"
+        loginfo "--- assert ok ${msg_arr[@]}: $sub_cmd ${sub_args[@]}"
         echo
     else
-        loginfo "--- assert fail"
+        loginfo "--- assert fail ${msg_arr[@]}: $sub_cmd ${sub_args[@]}"
         echo
         exit 1
     fi
