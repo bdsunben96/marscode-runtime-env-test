@@ -12,7 +12,7 @@ clear(){
 trap clear EXIT
 
 
-loginfo "=== start basic env ==="
+loginfo "=== start test basic env ==="
 assert ls -al ~/.npm/lib
 assert_regex 'yarn' cat ~/.nvm/default-packages
 assert_regex 'pnpm' cat ~/.nvm/default-packages
@@ -35,3 +35,10 @@ assert which yarn
 assert which yarnpkg
 assert 'test -e /cloudide/workspace/.cloudide/extensions/dbaeumer.vscode-eslint-*'
 assert 'test -e /cloudide/workspace/.cloudide/extensions/vue.volar-*'
+
+
+loginfo "=== start test package manager ==="
+cd $script_path/../../data/nodejs/koa
+assert pnpm --version
+assert pnpm install
+assert_http http://localhost:3000 200 pnpm run start

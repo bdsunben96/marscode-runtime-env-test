@@ -19,6 +19,8 @@ clear(){
     fi
     rm -rf ~/.conda
     # rm -rf ~/.cache
+    # mkdir -p ~/.cache
+    # ln -s /cloudide-cache/nix/index/default ~/.cache/nix-index
 }
 trap clear EXIT
 
