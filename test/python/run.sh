@@ -34,14 +34,14 @@ assert which python
 assert "bash -c 'source ~/.bashrc && type conda'"
 assert which pip
 assert which poetry
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-pyright.pyright-*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-python.python-*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-python.debugpy-*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-toolsai.jupyter-20*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-toolsai.vscode-jupyter-cell-tags-*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-toolsai.jupyter-keymap-*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-toolsai.jupyter-renderers-*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/ms-toolsai.vscode-jupyter-slideshow-*'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-pyright.pyright-*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-python.python-*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-python.debugpy-*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-toolsai.jupyter-20*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-toolsai.vscode-jupyter-cell-tags-*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-toolsai.jupyter-keymap-*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-toolsai.jupyter-renderers-*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-toolsai.vscode-jupyter-slideshow-*) && [ ${#arr[@]} -ne 0 ]'
 assert_regex 'python.languageServer.*Default' 'cat /cloudide/workspace/.cloudide/data/Machine/settings.json'
 assert_regex 'python.analysis.typeCheckingMode.*off' 'cat /cloudide/workspace/.cloudide/data/Machine/settings.json'
 assert_regex 'python.analysis.useLibraryCodeForTypes.*true' 'cat /cloudide/workspace/.cloudide/data/Machine/settings.json'

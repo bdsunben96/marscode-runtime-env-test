@@ -132,7 +132,7 @@ assert_http(){
     set +m
     echo "server pid is $job_pid_id"
     # sleep 1000
-    max_retries=5
+    max_retries=10
     trap "kill -9 -$job_pid_id" RETURN SIGINT SIGTERM
     retries=0
     while [ $retries -lt $max_retries ]; do

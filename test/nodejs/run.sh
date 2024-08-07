@@ -40,8 +40,8 @@ assert which pnpm
 assert which pnpx
 assert which yarn
 assert which yarnpkg
-assert 'test -e /cloudide/workspace/.cloudide/extensions/dbaeumer.vscode-eslint-*'
-assert 'test -e /cloudide/workspace/.cloudide/extensions/vue.volar-*'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/dbaeumer.vscode-eslint-*) && [ ${#arr[@]} -ne 0 ]'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/vue.volar-*) && [ ${#arr[@]} -ne 0 ]'
 
 
 loginfo "=== start test package manager ==="

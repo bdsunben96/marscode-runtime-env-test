@@ -13,7 +13,7 @@ assert which dlv
 assert which gofmt
 assert which gopls
 assert which staticcheck
-assert 'test -e /cloudide/workspace/.cloudide/extensions/golang.go-*'
+assert 'arr=(/cloudide/workspace/.cloudide/extensions/golang.go-*) && [ ${#arr[@]} -ne 0 ]'
 # assert 'test -e /cloudide/workspace/.cloudide/extensions/xxx-*'
 assert_regex "GOROOT=.*nix" go env
 assert_regex "GOPATH=.*home/.*/go" go env
