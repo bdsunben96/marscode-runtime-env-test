@@ -16,7 +16,8 @@ clear(){
     # rm -rf ~/.nvm/.cache
     rm -rf /home/cloudide/.local/share/fnm /cloudide/workspace/.tmp
 }
-trap clear EXIT
+# trap clear EXIT
+clear
 
 
 loginfo "=== start test basic env ==="

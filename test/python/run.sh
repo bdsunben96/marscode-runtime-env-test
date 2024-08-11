@@ -22,8 +22,8 @@ clear(){
     # mkdir -p ~/.cache
     # ln -s /cloudide-cache/nix/index/default ~/.cache/nix-index
 }
-trap clear EXIT
-
+# trap clear EXIT
+clear
 
 loginfo "=== start basic env ==="
 assert_regex '.conda/bin' 'echo $PATH'
