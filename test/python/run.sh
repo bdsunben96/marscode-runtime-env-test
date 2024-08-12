@@ -22,7 +22,7 @@ clear(){
     # mkdir -p ~/.cache
     # ln -s /cloudide-cache/nix/index/default ~/.cache/nix-index
 }
-# trap clear EXIT
+trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 loginfo "=== start basic env ==="

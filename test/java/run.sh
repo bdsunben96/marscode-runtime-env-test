@@ -11,7 +11,7 @@ clear(){
     rm -rf $script_path/../../data/java/hello/Main.class
     rm -rf /tmp/test/java
 }
-# trap clear EXIT
+trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 

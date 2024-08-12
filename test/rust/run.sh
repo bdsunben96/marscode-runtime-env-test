@@ -11,7 +11,7 @@ clear(){
     rm -rf /tmp/test/rust
     rm -rf ~/.rustup && mkdir -p ~/.rustup
 }
-# trap clear EXIT
+trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 

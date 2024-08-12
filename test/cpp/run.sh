@@ -13,7 +13,7 @@ clear(){
     rm -rf $script_path/../../data/cpp/cmake/build
     rm -rf /tmp/test/cpp
 }
-# trap clear EXIT
+trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 
@@ -50,7 +50,7 @@ assert cmake --build ./build
 assert_regex "Hello" ./build/main
 
 
-loginfo "=== start test dropbear"
+loginfo "=== start test compile dropbear"
 mkdir -p /tmp/test/cpp
 cd /tmp/test/cpp
 git clone https://github.com/mkj/dropbear.git
@@ -61,3 +61,46 @@ assert ./configure --prefix=$HOME/.local
 assert 'source ~/.bashrc && make PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp"'
 assert make install
 assert ~/.local/sbin/dropbear -h
+
+
+loginfo "=== start test compile leveldb"
+mkdir -p /tmp/test/cpp
+cd /tmp/test/cpp
+git clone https://github.com/google/leveldb
+cd leveldb
+git submodule update --init --recursive
+mkdir -p build && cd build
+assert cmake -DCMAKE_BUILD_TYPE=Release ..
+assert cmake --build .
+assert make test
+
+
+loginfo "=== start test compile curl with nghttp2"
+mkdir -p /tmp/test/cpp
+cd /tmp/test/cpp
+git clone https://github.com/nghttp2/nghttp2
+cd nghttp2
+git checkout d97bc7d8745ded136efa6e9e747f2310406893dd
+git submodule update --init
+assert autoreconf -i
+assert automake
+assert autoconf
+assert ./configure --prefix=$HOME/.local
+assert make
+assert make install
+assert_regex libnghttp2.a ls -al ~/.local/lib 
+assert_regex libnghttp2.so ls -al ~/.local/lib 
+
+cd ../
+git clone https://github.com/curl/curl
+cd curl
+git checkout ba235ab269080dc66e35835c829f7ac4290dbc1d
+assert autoreconf -fi
+assert nix-env -iA nixpkgs.libpsl
+assert ./configure --prefix=$HOME/.local --with-nghttp2=$HOME/.local --with-ssl
+assert make
+assert make install
+assert_regex 'nghttp2' ~/.local/bin/curl --version
+assert_regex 'libnghttp2.so' ldd ~/.local/bin/curl
+assert ~/.local/bin/curl --http2 -I nghttp2.org
+assert_regex 'HTTP/2' ~/.local/bin/curl --http2 -I nghttp2.org
