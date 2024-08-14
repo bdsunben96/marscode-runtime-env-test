@@ -62,14 +62,14 @@ mkdir -p ~/.gradle
 export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
 export GRADLE_USER_HOME=$HOME/.gradle
 echo 'org.gradle.java.installations.fromEnv=JAVA_HOME' > ~/.gradle/gradle.properties # 不工作，原因是 cat $(which gradle) -P 覆盖了。
-echo 'org.gradle.java.installations.paths=/nix/store/zmj3m7wrgqf340vqd4v90w8dw371vhjg-openjdk-17.0.7+7/lib/openjdk' > ~/.gradle/gradle.properties
+echo "org.gradle.java.installations.paths=$JAVA_HOME" > ~/.gradle/gradle.properties
 # fixme end
 # ./gradlew -q javaToolchains
 # gradle -q javaToolchains
 # gradle -Porg.gradle.java.installations.fromEnv=JAVA_HOME -q javaToolchains
 # gradle -Porg.gradle.java.installations.paths=/nix/store/zmj3m7wrgqf340vqd4v90w8dw371vhjg-openjdk-17.0.7+7/lib/openjdk -q javaToolchains
 assert gradle clean bootJar
-assert_http localhost:8080 404 gradle cleean bootRun
+assert_http localhost:8080 404 gradle clean bootRun
 rm -rf /tmp/test/java
 
 

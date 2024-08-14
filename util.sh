@@ -149,5 +149,6 @@ assert_http(){
         fi
     done
     loginfo "--- http assert failed ${msg_arr[@]}: url is $url, want status code is $status_code, server start command is $sub_cmd ${sub_args[@]}"
+    exit 1
 }
 # assert_http https://www.bytedance.com/ 200 sleep 10

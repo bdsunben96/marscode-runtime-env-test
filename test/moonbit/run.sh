@@ -8,7 +8,7 @@ source $script_path/../../util.sh
 
 clear(){
     loginfo "will clear test data"
-    rm -rf ~/.moon/bin
+    rm -rf ~/.moon && mkdir -p ~/.moon
 }
 trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
@@ -22,7 +22,7 @@ assert 'arr=(/cloudide/workspace/.cloudide/extensions/moonbit.moonbit-lang-*) &&
 
 loginfo "=== start test hello project ==="
 cd $script_path/../../data/moonbit/hello
-assert_regex Hello 'source ~/.bashrc && sleep 5 && moon run main'
+assert_regex Hello 'source ~/.bashrc && sleep 10 && moon run main'
 
 
 loginfo "=== start test moon update ==="
