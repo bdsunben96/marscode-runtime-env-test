@@ -15,6 +15,14 @@ trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 
+loginfo "=== test region special $CLOUDIDE_PROVIDER_REGION ==="
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    assert_regex "maven.aliyun.com" cat ~/.m2/settings.xml
+else
+    loginfo "no region special test, skip"
+fi
+
+
 loginfo "=== start test basic env ==="
 assert which java
 assert which mvn
@@ -43,7 +51,11 @@ java Main
 loginfo "=== start test maven and gradle project"
 mkdir -p /tmp/test/java
 cd /tmp/test/java
-wget https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-cli/3.3.2/spring-boot-cli-3.3.2-bin.zip
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    wget https://repo.huaweicloud.com/repository/maven/org/springframework/boot/spring-boot-cli/3.3.2/spring-boot-cli-3.3.2-bin.zip
+else
+    wget https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-cli/3.3.2/spring-boot-cli-3.3.2-bin.zip
+fi
 unzip -o spring-boot-cli-3.3.2-bin.zip
 spring_cmd=$(pwd)/spring-3.3.2/bin/spring
 # $spring_cmd init --list
@@ -76,7 +88,11 @@ rm -rf /tmp/test/java
 loginfo "=== start test spring-projects/spring-petclinic"
 mkdir -p /tmp/test/java
 cd /tmp/test/java
-git clone https://github.com/spring-projects/spring-petclinic
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    git clone https://gitee.com/rectcircle/spring-petclinic.git
+else
+    git clone https://github.com/spring-projects/spring-petclinic
+fi
 cd spring-petclinic && git checkout 383edc1656e305f8151c258b6925df00f7b53655
 assert mvn install -Dmaven.test.skip=true
 assert_http localhost:8080 200 java -jar target/spring-petclinic-3.3.0-SNAPSHOT.jar

@@ -20,6 +20,14 @@ trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    assert_regex "npmmirror.com" 'echo $FNM_NODE_DIST_MIRROR'
+    assert_regex "npmmirror.com" 'echo $NVM_NODEJS_ORG_MIRROR'
+else
+    loginfo "no region special test, skip"
+fi
+
+
 loginfo "=== start test basic env ==="
 assert ls -al ~/.npm/lib
 assert_regex 'yarn' cat ~/.nvm/default-packages
@@ -47,6 +55,10 @@ assert 'arr=(/cloudide/workspace/.cloudide/extensions/vue.volar-*) && [ ${#arr[@
 
 loginfo "=== start test package manager ==="
 cd $script_path/../../data/nodejs/koa
+
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    export ELECTRON_MIRROR=http://npmmirror.com/mirrors/electron/
+fi
 
 assert pnpm --version
 assert pnpm install

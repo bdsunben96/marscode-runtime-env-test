@@ -28,5 +28,9 @@ assert_regex Hello 'source ~/.bashrc && sleep 10 && moon run main'
 loginfo "=== start test moon update ==="
 # 无语： moonbit 没有 -y 参数，用 yes 命令也解决不了。。。
 # assert 'bash -c "yes | moon upgrade"'
-assert 'curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash'
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    assert 'curl -fsSL https://cli.moonbitlang.cn/install/unix.sh | bash'
+else
+    assert 'curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash'
+fi
 assert_regex $HOME/.moon/bin/moon which moon

@@ -7,6 +7,14 @@ source $script_path/../../util.sh
 loginfo "=== start test golang ==="
 
 
+loginfo "=== test region special $CLOUDIDE_PROVIDER_REGION ==="
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    assert_regex "GOPROXY.*https.*goproxy.cn.*direct" go env
+else
+    loginfo "no region special test, skip"
+fi
+
+
 loginfo "=== test basic env ==="
 assert which go
 assert which dlv
@@ -22,7 +30,7 @@ assert_regex "GOPATH=.*home/.*/go" go env
 loginfo "=== test hello project ==="
 cd $script_path/../../data/golang/hello
 assert test -e go.mod
-assert go get -u github.com/gin-gonic/gin
+assert go get github.com/gin-gonic/gin
 assert go mod tidy 
 assert go build
 assert ./main

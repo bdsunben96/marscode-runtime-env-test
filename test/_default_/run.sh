@@ -6,6 +6,15 @@ source $script_path/../../util.sh
 
 loginfo "=== start test _default_ ==="
 
+
+loginfo "=== test region special $CLOUDIDE_PROVIDER_REGION ==="
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    assert_regex "registry.npmmirror.com"  "cat ~/.npmrc"
+else
+    assert 'a0deploydeamon 进程端口正常' -- curl localhost:19002/version
+fi
+
+
 loginfo "=== test file system ==="
 assert touch /cloudide/workspace/.abc
 assert touch /tmp/.abc
@@ -32,6 +41,9 @@ assert touch /nix/store/.abc
 assert_regex_invert '^$' ls /nix/store/.abc
 # assert_regex_invert '^$' ls /nix-store-upper
 assert test -e '/usr/lib/librtldloader.so'
+assert test -e "$HOME/.local/state/nix/builtin/lib/libz.so"
+assert test -e "$HOME/.local/state/nix/builtin/lib/libssl.so"
+assert test -e "$HOME/.local/state/nix/builtin/lib/libstdc++.so"
 
 
 loginfo "=== test environment variables ==="
@@ -76,7 +88,6 @@ assert_regex '.npm/bin' 'echo $PATH'
 loginfo "=== test component process ==="
 assert 'workspaceagent 进程端口正常' -- curl localhost:29003
 assert 'icube 进程端口正常' --  curl localhost:29501/version
-assert 'a0deploydeamon 进程端口正常' -- curl localhost:19002/version
 
 
 loginfo "=== test command ==="
@@ -121,3 +132,4 @@ assert which nix-shell
 assert which nix-store
 assert which rippkgs
 assert which rippkgs-index
+assert which python python3 python3.12 pip node gcc openssl gdb make pkg-config gettext

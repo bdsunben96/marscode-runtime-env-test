@@ -15,6 +15,14 @@ trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 
+if [ "$CLOUDIDE_PROVIDER_REGION" = "cn" ] ;then
+    assert_regex "rsproxy-sparse" 'cat ~/.cargo/config'
+    assert_regex "rsproxy.cn" 'cat ~/.cargo/config'
+else
+    loginfo "no region special test, skip"
+fi
+
+
 loginfo "=== start test basic env ==="
 assert which rustc cargo rust-analyzer rustc rustdoc rust-gdb rust-gdbgui rust-lldb rustup
 assert_regex '.cargo/bin' 'echo $PATH'
@@ -41,5 +49,8 @@ assert_regex "'Hello, world!'" ./target/release/hello
 
 
 loginfo "=== start test rustup"
+# fixme: rustup 源配置
+export RUSTUP_DIST_SERVER=https://rsproxy.cn
+export RUSTUP_UPDATE_ROOT=https://rsproxy.cn/rustup
 assert rustup install 1.80.1
 assert_regex '1.80.1' rustc -V
