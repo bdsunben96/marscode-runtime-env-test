@@ -49,8 +49,5 @@ assert_regex "'Hello, world!'" ./target/release/hello
 
 
 loginfo "=== start test rustup"
-# fixme: rustup 源配置
-export RUSTUP_DIST_SERVER=https://rsproxy.cn
-export RUSTUP_UPDATE_ROOT=https://rsproxy.cn/rustup
 assert rustup install 1.80.1
 assert_regex '1.80.1' rustc -V

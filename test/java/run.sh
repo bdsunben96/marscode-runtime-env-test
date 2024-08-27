@@ -68,14 +68,13 @@ cd /tmp/test/java
 mkdir -p spring-web-gradle
 cd spring-web-gradle
 assert $spring_cmd init --type gradle-project --dependencies web --extract
-# fixme: https://docs.gradle.org/current/userguide/toolchains.html#sec:custom_loc
+# https://docs.gradle.org/current/userguide/toolchains.html#sec:custom_loc
 # gradle -q javaToolchains
-mkdir -p ~/.gradle
-export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
-export GRADLE_USER_HOME=$HOME/.gradle
-echo 'org.gradle.java.installations.fromEnv=JAVA_HOME' > ~/.gradle/gradle.properties # 不工作，原因是 cat $(which gradle) -P 覆盖了。
-echo "org.gradle.java.installations.paths=$JAVA_HOME" > ~/.gradle/gradle.properties
-# fixme end
+# mkdir -p ~/.gradle
+# export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+# export GRADLE_USER_HOME=$HOME/.gradle
+# echo 'org.gradle.java.installations.fromEnv=JAVA_HOME' > ~/.gradle/gradle.properties # 不工作，原因是 cat $(which gradle) -P 覆盖了。
+# echo "org.gradle.java.installations.paths=$JAVA_HOME" > ~/.gradle/gradle.properties
 # ./gradlew -q javaToolchains
 # gradle -q javaToolchains
 # gradle -Porg.gradle.java.installations.fromEnv=JAVA_HOME -q javaToolchains

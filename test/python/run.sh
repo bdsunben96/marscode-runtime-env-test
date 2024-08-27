@@ -26,8 +26,6 @@ trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 loginfo "=== start basic env ==="
-# fixme: CC="" 会影响 pip install mariadb
-unset CC
 assert_regex '.conda/bin' 'echo $PATH'
 assert_regex '.conda/lib/mariadb' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
 assert_regex '.conda/lib/mariadb' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
