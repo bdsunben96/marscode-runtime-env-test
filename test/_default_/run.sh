@@ -133,3 +133,8 @@ assert which nix-store
 assert which rippkgs
 assert which rippkgs-index
 assert which python python3 python3.12 pip node gcc openssl gdb make pkg-config gettext
+
+
+loginfo "=== test nix install ==="
+assert nix-env -iA nixpkgs.bind
+assert dig
