@@ -119,6 +119,6 @@ rm -rf /home/cloudide/.local/share/fnm /cloudide/workspace/.tmp
 
 loginfo "=== start test node gyp ==="
 cd $script_path/../../data/nodejs/koa
-assert npm i sass bcrypt sqlite3
 assert 'nix-env -iA nixpkgs.libkrb5 && pip install setuptools && CC=$(which gcc) npm i krb5'
+assert npm i sass bcrypt sqlite3
 npm remove sass bcrypt sqlite3 krb5
