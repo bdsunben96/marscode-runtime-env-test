@@ -26,12 +26,14 @@ trap '[ "$?" -eq 0 ] && clear || true' EXIT
 clear
 
 loginfo "=== start basic env ==="
-assert_regex '.conda/bin' 'echo $PATH'
-assert_regex '.conda/lib/mariadb' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
-assert_regex '.conda/lib/mariadb' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
-assert_regex '.conda/lib' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+if [ "$CLOUDIDE_PROVIDER_REGION" != "cn" ] ;then
+    assert_regex '.conda/bin' 'echo $PATH'
+    assert_regex '.conda/lib/mariadb' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+    assert_regex '.conda/lib/mariadb' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+    assert_regex '.conda/lib' 'echo $CLOUDIDE_LD_LIBRARY_PATH'
+    assert "bash -c 'source ~/.bashrc && type conda'"
+fi
 assert which python
-assert "bash -c 'source ~/.bashrc && type conda'"
 assert which pip
 assert which poetry
 assert 'arr=(/cloudide/workspace/.cloudide/extensions/ms-pyright.pyright-*) && [ ${#arr[@]} -ne 0 ]'
