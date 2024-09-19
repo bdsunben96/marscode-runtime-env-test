@@ -107,13 +107,14 @@ assert '测试 python3.11 mysqlclient 安装' -- "nix-env -iA nixpkgs.libmysqlcl
 assert nix-env --uninstall python3
 assert_regex '3.12'  'py=$(which python) && $py -V'
 
-
-# loginfo "=== test conda ==="
-cp -rf ~/.bashrc ~/.bashrc_bak
-assert "bash -c 'source ~/.bashrc && conda init bash'"
-source ~/.bashrc
-assert_regex '.conda/bin/python' which python
+if [ "$CLOUDIDE_PROVIDER_REGION" != "cn" ] ;then
+    loginfo "=== test conda ==="
+    cp -rf ~/.bashrc ~/.bashrc_bak
+    assert "bash -c 'source ~/.bashrc && conda init bash'"
+    source ~/.bashrc
+    assert_regex '.conda/bin/python' which python
 # fixme: 内存不够，会被 kill
 # assert 'source ~/.bashrc && nix-env --uninstall mariadb-connector-c && conda install -y conda-forge::mariadb-connector-c'
 # assert pip install mariadb
 # assert "python -c 'import mariadb'"
+fi
